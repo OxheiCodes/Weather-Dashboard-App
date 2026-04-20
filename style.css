@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+  --bg-1: #c9f6ff;
+  --bg-2: #f3ffd9;
+  --night-bg-1: #12243b;
+  --night-bg-2: #24344f;
+  --ink: #182026;
+  --line: #24303a;
+  --panel: #fff7da;
+  --panel-2: #fffdf3;
+  --accent: #ff8e2b;
+  --accent-2: #29a8dc;
+  --sun: #ffc53a;
+  --moon: #f2f0d6;
+  --danger: #d64545;
+  --danger-bg: #ffe6df;
+  --pixel-shadow: 0 4px 0 #24303a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  padding: 56px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'VT323', monospace;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(36, 48, 58, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 48, 58, 0.06) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 10vh;
+  left: -120px;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  box-shadow:
+    24px 0 #ffffff,
+    48px 0 #ffffff,
+    72px 0 #ffffff,
+    24px -24px #ffffff,
+    48px -24px #ffffff,
+    240px 120px #ffffff,
+    264px 120px #ffffff,
+    288px 120px #ffffff,
+    264px 96px #ffffff;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: cloud-drift 20s linear infinite;
+}
+
+.sky-badge {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--line);
+  background: var(--sun);
+  box-shadow: 4px 4px 0 var(--line);
+  z-index: 3;
+  image-rendering: pixelated;
+}
+
+.sky-badge::before,
+.sky-badge::after {
+  content: '';
+  position: absolute;
+}
+
+body.is-day .sky-badge {
+  background: var(--sun);
+}
+
+body.is-day .sky-badge::before {
+  width: 4px;
+  height: 4px;
+  top: 8px;
+  left: 8px;
+  background: #ffeb9a;
+  box-shadow:
+    -8px 0 #ff9f2f,
+    8px 0 #ff9f2f,
+    0 -8px #ff9f2f,
+    0 8px #ff9f2f,
+    -8px -8px #ff9f2f,
+    8px -8px #ff9f2f,
+    -8px 8px #ff9f2f,
+    8px 8px #ff9f2f;
+}
+
+body.is-day .sky-badge::after {
+  display: none;
+}
+
+body.is-night {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, var(--night-bg-1), var(--night-bg-2));
+}
+
+body.is-night .sky-badge {
+  background: var(--moon);
+  border-color: #d6d3b8;
+}
+
+body.is-night .sky-badge::before {
+  width: 12px;
+  height: 12px;
+  top: 1px;
+  left: 7px;
+  background: var(--night-bg-1);
+  box-shadow:
+    -26px 14px #ffffff,
+    -18px 24px #ffffff,
+    14px 10px #ffffff,
+    26px -8px #ffffff;
+}
+
+body.is-night .sky-badge::after {
+  width: 2px;
+  height: 2px;
+  top: 14px;
+  left: -10px;
+  background: #ffffff;
+  box-shadow:
+    38px -4px #ffffff,
+    44px 8px #ffffff,
+    18px -18px #ffffff;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 560px;
+  background: var(--panel);
+  border: 4px solid var(--line);
+  padding: 28px;
+  box-shadow: 6px 6px 0 #24303a;
+  animation: pixel-pop 260ms steps(4, end);
+}
+
+@keyframes pixel-pop {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cloud-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100vw + 220px));
+  }
+}
+
+h1 {
+  font-family: 'Press Start 2P', monospace;
+  text-align: center;
+  line-height: 1.45;
+  letter-spacing: 1px;
+  font-size: clamp(1rem, 2.7vw, 1.25rem);
+  margin-bottom: 24px;
+  text-shadow: 2px 2px 0 #fff;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+#city-input,
+#search-btn,
+#error,
+.current-card,
+.forecast-day {
+  border: 3px solid var(--line);
+  border-radius: 0;
+}
+
+#city-input {
+  flex: 1;
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+  color: var(--ink);
+  background: var(--panel-2);
+  padding: 10px 12px;
+  outline: none;
+  transition: transform 120ms steps(2, end), box-shadow 120ms steps(2, end);
+}
+
+#city-input::placeholder {
+  color: #5d6870;
+}
+
+#city-input:focus {
+  box-shadow: var(--pixel-shadow);
+  transform: translate(-1px, -1px);
+}
+
+#search-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.7rem;
+  color: #fff;
+  background: var(--accent-2);
+  padding: 0 14px;
+  cursor: pointer;
+  min-height: 52px;
+  box-shadow: 0 4px 0 #1a6d8d;
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), filter 80ms steps(2, end);
+}
+
+#search-btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+#search-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #1a6d8d;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#loading {
+  text-align: center;
+  margin: 16px 0 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.62rem;
+  color: var(--line);
+  animation: blink 800ms steps(2, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+#error {
+  text-align: center;
+  margin: 14px 0;
+  padding: 10px 12px;
+  font-size: 1.25rem;
+  color: var(--danger);
+  background: var(--danger-bg);
+  box-shadow: 0 4px 0 #9b3232;
+}
+
+#current-weather,
+#forecast {
+  margin-top: 18px;
+  animation: reveal 180ms steps(3, end);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.current-card {
+  text-align: center;
+  background: #fff9df;
+  padding: 18px 16px;
+  box-shadow: var(--pixel-shadow);
+}
+
+.current-card h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.64rem, 2vw, 0.82rem);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.current-card img,
+.forecast-day img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.current-card img {
+  width: 84px;
+  height: 84px;
+  margin: 4px 0;
+  filter: drop-shadow(2px 3px 0 rgba(24, 32, 38, 0.25));
+}
+
+.current-card .temp {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.05rem, 3.5vw, 1.5rem);
+  color: var(--accent);
+  margin-top: 6px;
+  text-shadow: 2px 2px 0 #fff;
+}
+
+.current-card .condition {
+  margin-top: 8px;
+  font-size: 1.35rem;
+  color: #38434c;
+}
+
+.forecast-title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.6px;
+}
+
+.forecast-days {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.forecast-day {
+  text-align: center;
+  padding: 12px 8px;
+  background: #fbfffe;
+  box-shadow: 0 2px 0 #24303a;
+  transition: transform 100ms steps(2, end);
+}
+
+.forecast-day:hover {
+  transform: translateY(-2px);
+}
+
+.forecast-day .date {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  line-height: 1.5;
+  color: #31404b;
+  margin-bottom: 6px;
+}
+
+.forecast-day img {
+  width: 46px;
+  height: 46px;
+}
+
+.forecast-day .temp {
+  margin-top: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  color: var(--accent);
+}
+
+.forecast-day .condition {
+  margin-top: 4px;
+  font-size: 1.08rem;
+  color: #4f5c66;
+  line-height: 1.05;
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 20px 12px;
+  }
+
+  .sky-badge {
+    top: 10px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+
+  body.is-day .sky-badge::before {
+    top: 6px;
+    left: 6px;
+  }
+
+  body.is-night .sky-badge::before {
+    width: 9px;
+    height: 9px;
+    top: 1px;
+    left: 6px;
+  }
+
+  .app-container {
+    padding: 20px 16px;
+    box-shadow: 6px 6px 0 #24303a;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  #search-btn {
+    width: 100%;
+  }
+
+  .forecast-days {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .forecast-day .date {
+    margin-bottom: 0;
+    min-width: 88px;
+  }
+
+  .forecast-day .temp {
+    margin-top: 0;
+    min-width: 56px;
+    text-align: right;
+  }
+
+  .forecast-day .condition {
+    display: none;
+  }
+}
